@@ -1,0 +1,37 @@
+{
+  "@@locale": "en",
+  "scanStartButton": "Start scan",
+  "@scanStartButton": {
+    "description": "The button to start the scan"
+  },
+  "scanResultTitle": "Scan result",
+  "@scanResultTitle": {
+    "description": "The scan result heading"
+  },
+  "enterFileNamePrompt": "Enter a title for the document",
+  "@enterFileNamePrompt": {
+    "description": "The prompt to enter a title for the document"
+  },
+  "fileNameIsRequired": "The file name is required",
+  "@fileNameIsRequired": {
+    "description": "The error message when the file name is required"
+  },
+  "shareButton": "Share",
+  "@shareButton": {
+    "description": "The button to share the document"
+  },
+  "defaultFileName": "{date} {time} Scan",
+  "@defaultFileName": {
+    "description": "The default file name for the document",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  }
+}

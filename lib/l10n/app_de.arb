@@ -1,0 +1,21 @@
+{
+  "@@locale": "de",
+  "scanStartButton": "Scan starten",
+  "scanResultTitle": "Scan-Ergebnis",
+  "enterFileNamePrompt": "Geben Sie einen Titel für das Dokument ein",
+  "fileNameIsRequired": "Der Dateiname ist erforderlich",
+  "shareButton": "Teilen",
+  "defaultFileName": "{date} {time} Scan",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  }
+}
