@@ -91,10 +91,10 @@ jobs:
           new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
           echo "VERSION=$new_version" >> $GITHUB_ENV
 
-        #13 Create Release
-      - name: Create Release
-        uses: ncipollo/release-action@v1
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab"
-          tag: v${{ env.VERSION }}
-          token: ${{ secrets.TOKEN }}
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+            LICENSE
