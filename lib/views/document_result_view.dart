@@ -3,9 +3,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:super_simple_scan/widgets/filenameform_widget.dart';
+import 'package:super_simple_scan/widgets/pdfdisplay_widget.dart';
 
 class DocumentResultView extends StatefulWidget {
   final DocumentScanningResult document;
@@ -20,25 +21,12 @@ class DocumentResultViewState extends State<DocumentResultView>
     with WidgetsBindingObserver {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final fileNameFieldController = TextEditingController(text: "");
-  int currentPage = 0;
-  int? totalPages = 0;
-  bool isReady = false;
-  String errorMessage = '';
 
-// Add a pdf suffix to the file name if it is missing
-  String _addPdfSuffix(String fileName) {
-    if (!fileName.toLowerCase().endsWith('.pdf')) {
-      return '$fileName.pdf';
-    }
-    return fileName;
-  }
-
-  void setDefaultFileName() {
-    DateTime now = DateTime.now();
-    fileNameFieldController.text =
-        AppLocalizations.of(context)!.defaultFileName(now, now);
-    fileNameFieldController.selection = TextSelection(
-        baseOffset: 0, extentOffset: fileNameFieldController.text.length);
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    fileNameFieldController.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,129 +48,33 @@ class DocumentResultViewState extends State<DocumentResultView>
             Expanded(
               child: SizedBox(
                   height: pdfHeight,
-                  child: Stack(children: [
-                    PDFView(
-                      enableSwipe: true,
-                      pageFling: true,
-                      pageSnap: true,
-                      autoSpacing: true,
-                      filePath: widget.document.pdf!.uri,
-                      defaultPage: currentPage,
-                      swipeHorizontal: true,
-                      fitPolicy: FitPolicy.BOTH,
-                      fitEachPage: true,
-                      preventLinkNavigation: false,
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      onRender: (pages) {
-                        setState(() {
-                          totalPages = pages;
-                          isReady = true;
-                          setDefaultFileName();
-                        });
-                      },
-                      onPageChanged: (page, total) {
-                        setState(() {
-                          currentPage = page ?? 0;
-                          totalPages = total;
-                        });
-                      },
-                      onPageError: (page, error) {
-                        setState(() {
-                          errorMessage = '$page: ${error.toString()}';
-                        });
-                        print('$page: ${error.toString()}');
-                      },
-                    ),
-                    errorMessage.isEmpty
-                        ? !isReady
-                            ? Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : Container()
-                        : Center(
-                            child: Text(errorMessage),
-                          ),
-                    Positioned(
-                      bottom: 0,
-                      width: MediaQuery.of(context).size.width - 32,
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withAlpha(0),
-                              Theme.of(context).scaffoldBackgroundColor,
-                            ],
-                          ),
-                        ),
-                        child: Text(
-                          "${currentPage + 1} / $totalPages",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    )
-                  ])),
+                  child: PdfDisplayWidget(pdfUrl: widget.document.pdf!.uri)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
             ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: fileNameFieldController,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      hintText:
-                          AppLocalizations.of(context)!.enterFileNamePrompt,
-                      suffixText: '.pdf',
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)!.fileNameIsRequired;
-                      }
-                      return null;
-                    },
-                    onTap: () => fileNameFieldController.selection =
-                        TextSelection(
-                            baseOffset: 0,
-                            extentOffset: fileNameFieldController.text.length),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: FilledButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _shareDocument(widget.document.pdf!,
-                              _addPdfSuffix(fileNameFieldController.text));
-                        }
-                      },
-                      label: Text(AppLocalizations.of(context)!.shareButton),
-                      icon: Icon(Icons.share),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            FileNameFormWidget(
+                formKey: _formKey,
+                fileNameFieldController: fileNameFieldController,
+                onSubmitted: _shareDocument,
+                defaultFileName: _getDefaultFileName()),
           ],
         ),
       ),
     );
+  }
+
+  // Add a pdf suffix to the file name if it is missing
+  String _addPdfSuffix(String fileName) {
+    if (!fileName.toLowerCase().endsWith('.pdf')) {
+      return '$fileName.pdf';
+    }
+    return fileName;
+  }
+
+  String _getDefaultFileName() {
+    DateTime now = DateTime.now();
+    return AppLocalizations.of(context)!.defaultFileName(now, now);
   }
 
   Future<Uint8List?> _readFileByte(String filePath) async {
@@ -198,22 +90,19 @@ class DocumentResultViewState extends State<DocumentResultView>
     return bytes;
   }
 
-  void _shareDocument(
-      DocumentScanningResultPdf document, String fileName) async {
-    Uint8List? bytes = await _readFileByte(document.uri);
+  void _shareDocument() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    Uint8List? bytes = await _readFileByte(widget.document.pdf!.uri);
     if (bytes == null) {
       return;
     }
+    String fileName = _addPdfSuffix(fileNameFieldController.text);
     Share.shareXFiles(
       [XFile.fromData(bytes, name: fileName, mimeType: 'application/pdf')],
       fileNameOverrides: [fileName],
     );
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    fileNameFieldController.dispose();
-    super.dispose();
   }
 }
