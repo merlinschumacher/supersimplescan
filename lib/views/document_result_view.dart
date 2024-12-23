@@ -66,6 +66,8 @@ class DocumentResultViewState extends State<DocumentResultView>
 
   // Add a pdf suffix to the file name if it is missing
   String _addPdfSuffix(String fileName) {
+    // Remove leading and trailing whitespaces
+    fileName = fileName.trim();
     if (!fileName.toLowerCase().endsWith('.pdf')) {
       return '$fileName.pdf';
     }

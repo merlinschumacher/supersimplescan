@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FileNameInputTextField extends StatelessWidget {
@@ -28,9 +29,9 @@ class FileNameInputTextField extends StatelessWidget {
         }
         return null;
       },
-      onChanged: onChanged,
-      onTap: () => controller.selection =
-          TextSelection(baseOffset: 0, extentOffset: controller.text.length),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(245),
+      ],
     );
   }
 }

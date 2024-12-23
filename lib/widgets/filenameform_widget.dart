@@ -15,7 +15,9 @@ class FileNameFormWidget extends StatelessWidget {
       required this.onSubmitted,
       required this.defaultFileName})
       : _formKey = formKey {
-    fileNameFieldController.text = defaultFileName;
+    if (fileNameFieldController.text.isEmpty) {
+      fileNameFieldController.text = defaultFileName;
+    }
     fileNameFieldController.selection = TextSelection(
         baseOffset: 0, extentOffset: fileNameFieldController.text.length);
   }
@@ -26,7 +28,9 @@ class FileNameFormWidget extends StatelessWidget {
         key: _formKey,
         child: Column(
           children: [
-            FileNameInputTextField(controller: fileNameFieldController),
+            FileNameInputTextField(
+              controller: fileNameFieldController,
+            ),
             Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ShareButton(
