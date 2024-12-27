@@ -17,5 +17,6 @@
         "format": "jms"
       }
     }
-  }
+  },
+  "infoPageText": "Super Simple Scan ist eine einfach zu verwendende, funktionale App zum Scannen von Dokumenten.\nQuellcode: <a href='https://github.com/merlinschumacher/supersimplescan'>https://github.com/merlinschumacher/supersimplescan</a>\n&copy; Merlin Schumacher.\nDiese App greift weder auf Ihre persönlichen Daten zu, noch speichert oder teilt sie diese."
 }

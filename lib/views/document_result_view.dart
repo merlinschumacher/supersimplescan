@@ -37,9 +37,7 @@ class DocumentResultViewState extends State<DocumentResultView>
     double pdfHeight = contentHeight * 0.7;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.scanResultTitle),
-      ),
+      appBar: AppbarWidget(),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

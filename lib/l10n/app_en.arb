@@ -33,5 +33,9 @@
         "format": "jms"
       }
     }
+  },
+  "infoPageText": "Super Simple Scan is an easy-to-use, no-frills document scanning app.\nSource code: <a href='https://github.com/merlinschumacher/supersimplescan'>https://github.com/merlinschumacher/supersimplescan</a>\n&copy; Merlin Schumacher.\nThe application doesn't access, store or share any personal data.
+  "@infoPageText": {
+    "description": "The body text of the info page"
   }
 }
