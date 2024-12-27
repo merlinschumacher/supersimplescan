@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "appName": "Super Simple Scan",
+  "@appName": {
+    "description": "The name of the app."
+  },
   "scanStartButton": "Start scan",
   "@scanStartButton": {
     "description": "The button to start the scan"
@@ -34,7 +38,8 @@
       }
     }
   },
-  "infoPageText": "Super Simple Scan is an easy-to-use, no-frills document scanning app.\nSource code: <a href='https://github.com/merlinschumacher/supersimplescan'>https://github.com/merlinschumacher/supersimplescan</a>\n&copy; Merlin Schumacher.\nThe application doesn't access, store or share any personal data.
+  "infoPageTextFile": "info_en.md",
+  "infoPageText": "Super Simple Scan is an easy-to-use, no-frills document scanning app.\nSource code: <a href='https://github.com/merlinschumacher/supersimplescan'>https://github.com/merlinschumacher/supersimplescan</a>\n&copy; Merlin Schumacher.\nThe application doesn't access, store or share any personal data.",
   "@infoPageText": {
     "description": "The body text of the info page"
   }

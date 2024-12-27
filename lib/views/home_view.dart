@@ -1,10 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
+import 'package:super_simple_scan/views/document_result_view.dart';
+import 'package:super_simple_scan/widgets/appbar_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
-
 
 class _HomePageState extends State<HomePage> {
   DocumentScanner? _documentScanner;
@@ -48,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppbarWidget(),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.appName),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:super_simple_scan/widgets/appbar_widget.dart';
 import 'package:super_simple_scan/widgets/filenameform_widget.dart';
 import 'package:super_simple_scan/widgets/pdfdisplay_widget.dart';
 
@@ -37,7 +38,8 @@ class DocumentResultViewState extends State<DocumentResultView>
     double pdfHeight = contentHeight * 0.7;
 
     return Scaffold(
-      appBar: AppbarWidget(),
+      appBar:
+          CustomAppBar(title: AppLocalizations.of(context)!.scanResultTitle),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
