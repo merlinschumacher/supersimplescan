@@ -9,12 +9,13 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
-      style: ElevatedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 20),
+      style: FilledButton.styleFrom(
+        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        padding: EdgeInsets.symmetric(horizontal: 34, vertical: 16),
       ),
       onPressed: onPressed,
       label: Text(AppLocalizations.of(context)!.shareButton),
-      icon: Icon(Icons.share),
+      icon: Icon(Icons.share, size: 16),
     );
   }
 }

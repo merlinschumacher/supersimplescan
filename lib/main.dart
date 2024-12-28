@@ -14,24 +14,18 @@ void main() {
 class SuperSimpleScan extends StatelessWidget {
   const SuperSimpleScan({super.key});
 
-  static final _defaultLightColorScheme =
-      ColorScheme.fromSwatch(primarySwatch: Colors.blue);
-
-  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
-      primarySwatch: Colors.blue, brightness: Brightness.dark);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+    return DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
+      final ColorScheme lightColorScheme =
+          _generateColorScheme(lightDynamic?.primary);
+      final ColorScheme darkColorScheme =
+          _generateColorScheme(darkDynamic?.primary, Brightness.dark);
       return MaterialApp(
         title: 'Super Simple Scan',
-        theme: ThemeData(
-          colorScheme: lightColorScheme ?? _defaultLightColorScheme,
-        ),
-        darkTheme: ThemeData(
-          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
-        ),
+        theme: ThemeData(colorScheme: lightColorScheme),
+        darkTheme: ThemeData(colorScheme: darkColorScheme),
         themeMode: ThemeMode.system,
         localizationsDelegates: [
           AppLocalizations.delegate,
@@ -46,5 +40,18 @@ class SuperSimpleScan extends StatelessWidget {
         home: HomePage(),
       );
     });
+  }
+
+// Workaround for https://github.com/material-foundation/flutter-packages/issues/582
+  ColorScheme _generateColorScheme(Color? primaryColor,
+      [Brightness? brightness]) {
+    final Color seedColor = primaryColor ?? Colors.blue;
+
+    final ColorScheme newScheme = ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness ?? Brightness.light,
+    );
+
+    return newScheme.harmonized();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
 import 'package:super_simple_scan/views/document_result_view.dart';
-import 'package:super_simple_scan/widgets/appbar_widget.dart';
+import 'package:super_simple_scan/widgets/customappbar_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,12 +46,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: CustomAppBar(title: AppLocalizations.of(context)!.appName),
       body: Center(
@@ -61,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             FilledButton.icon(
               onPressed: startScan,
               label: Text(AppLocalizations.of(context)!.scanStartButton),
-              icon: Icon(Icons.camera_alt),
+              icon: Icon(Icons.document_scanner, size: 40),
               style: FilledButton.styleFrom(
                 textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 padding: EdgeInsets.symmetric(horizontal: 34, vertical: 16),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:super_simple_scan/widgets/appbar_widget.dart';
+import 'package:super_simple_scan/widgets/customappbar_widget.dart';
 import 'package:super_simple_scan/widgets/filenameform_widget.dart';
 import 'package:super_simple_scan/widgets/pdfdisplay_widget.dart';
 
