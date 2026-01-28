@@ -1,0 +1,19 @@
+{
+  "name": "Flutter Dev Container",
+  "image": "ghcr.io/cirruslabs/flutter:stable",
+  "remoteUser": "root",
+  "postCreateCommand": "useradd -m developer && chown -R developer:developer /workspace",
+  "runArgs": [ "--privileged", "--network=host" ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dart-Code.dart-code",
+        "dart-Code.flutter",
+        "ms-vscode.test-adapter-converter",
+        "Google.arb-editor"
+      ]
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:super_simple_scan/l10n/app_localizations.dart';
 
 class ShareButton extends StatelessWidget {
   final void Function() onPressed;

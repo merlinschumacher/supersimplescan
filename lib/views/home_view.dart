@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
+import 'package:super_simple_scan/l10n/app_localizations.dart';
 import 'package:super_simple_scan/views/document_result_view.dart';
 import 'package:super_simple_scan/widgets/customappbar_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
