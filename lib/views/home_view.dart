@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       await _documentScanner?.close();
       _documentScanner = DocumentScanner(
           options: DocumentScannerOptions(
-        documentFormat: DocumentFormat.pdf,
+        documentFormats: {DocumentFormat.pdf},
         mode: ScannerMode.base,
         pageLimit: 100,
         isGalleryImport: false,
