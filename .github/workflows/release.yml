@@ -55,6 +55,26 @@ jobs:
       # - name: Run tests
       #   run: flutter test
 
+      # On a tag push (v1.2.3), the tag is the source of truth for the
+      # app's version - not pubspec.yaml, which nothing here bumps
+      # automatically. versionCode is derived the same way so it stays
+      # strictly increasing across releases, which Google Play requires.
+      # workflow_dispatch (used to republish an existing build to a
+      # different track) has no tag, so it falls back to pubspec.yaml.
+      - name: Determine app version
+        id: version
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            RAW_VERSION="${GITHUB_REF_NAME#v}"
+          else
+            RAW_VERSION=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f2 | cut -d '+' -f1 | tr -d '\r')
+          fi
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$RAW_VERSION"
+          BUILD_NUMBER=$((MAJOR * 10000 + MINOR * 100 + PATCH))
+          echo "Version name: $RAW_VERSION, version code: $BUILD_NUMBER"
+          echo "name=$RAW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "code=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
+
       #5 Setup Keystore
       - name: Decode Keystore
         run: |
@@ -66,17 +86,36 @@ jobs:
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=keystore.jks" >> android/key.properties
 
+      # Must go through `env:` rather than being interpolated straight
+      # into the script: the JSON contains a multi-line private key
+      # with embedded quotes, and inlining it via ${{ }} splices raw
+      # text into the script before bash ever parses it, breaking out
+      # of the echo string and corrupting the JSON.
       - name: Decode Play service account credentials
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
-          echo "${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}" > android/app/play-service-account.json
+          echo "$PLAY_SERVICE_ACCOUNT_JSON" > android/app/play-service-account.json
 
       - name: Build APK
-        run: flutter build apk --release
+        run: >
+          flutter build apk --release
+          --build-name=${{ steps.version.outputs.name }}
+          --build-number=${{ steps.version.outputs.code }}
 
       - name: Build App Bundle
-        run: flutter build appbundle
+        run: >
+          flutter build appbundle
+          --build-name=${{ steps.version.outputs.name }}
+          --build-number=${{ steps.version.outputs.code }}
 
+      # continue-on-error so a Play Store issue (e.g. permissions still
+      # propagating, a duplicate version code) never blocks the GitHub
+      # release and artifacts below - the job is still failed overall
+      # by the check at the end.
       - name: Publish to Google Play
+        id: publish_play
+        continue-on-error: true
         working-directory: android
         run: |
           chmod +x gradlew
@@ -92,34 +131,11 @@ jobs:
             build/app/outputs/bundle/release/app-release.aab
             build/app/outputs/native-debug-symbols/release/native-debug-symbols.zip
 
-        #10 Extract Version
-      - name: Extract version from pubspec.yaml
-        id: extract_version
-        run: |
-          version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
-          echo "VERSION=$version" >> $GITHUB_ENV
-
-        #11 Check if Tag Exists
-      - name: Check if Tag Exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
-          fi
-
-        #12 Modify Tag if it Exists
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
-
       - name: Release
+        if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
         with:
+          tag_name: ${{ github.ref_name }}
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
@@ -129,3 +145,9 @@ jobs:
       - name: Clean up signing secrets
         if: always()
         run: rm -f android/app/keystore.jks android/key.properties android/app/play-service-account.json
+
+      - name: Fail job if Google Play publish failed
+        if: steps.publish_play.outcome == 'failure'
+        run: |
+          echo "::error::Publishing to Google Play failed - see the 'Publish to Google Play' step above. The GitHub release and artifacts were still published."
+          exit 1
