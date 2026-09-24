@@ -59,15 +59,17 @@ jobs:
         run: |
           mkdir -p ~/.android
           keytool -genkey -v -keystore ~/.android/debug.keystore \
+            -storetype JKS \
             -storepass android -alias androiddebugkey -keypass android \
             -keyalg RSA -keysize 2048 -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US"
 
       # Unsigned debug build: proves the app actually builds without
       # needing the release keystore secrets (also available on PRs
-      # from forks).
+      # from forks). -v surfaces the full Gradle stacktrace if this
+      # ever fails again, instead of Gradle's bare one-line summary.
       - name: Build debug APK
-        run: flutter build apk --debug
+        run: flutter build apk --debug -v
 
       # - run: flutter test
 
