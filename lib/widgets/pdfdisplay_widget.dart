@@ -47,7 +47,7 @@ class PdfDisplayWidgetState extends State<PdfDisplayWidget> {
           setState(() {
             errorMessage = '$page: ${error.toString()}';
           });
-          print('$page: ${error.toString()}');
+          debugPrint('PDF page error on page $page: ${error.toString()}');
         },
       ),
       errorMessage.isEmpty
@@ -61,7 +61,8 @@ class PdfDisplayWidgetState extends State<PdfDisplayWidget> {
             ),
       Positioned(
         bottom: 0,
-        width: MediaQuery.of(context).size.width - 32,
+        left: 16,
+        right: 16,
         child: Container(
           height: 50,
           alignment: Alignment.center,
