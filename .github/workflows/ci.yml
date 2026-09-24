@@ -51,6 +51,18 @@ jobs:
 
       - run: flutter pub get
 
+      # This runner has no pre-existing ~/.android/debug.keystore, and
+      # AGP's validateSigningDebug task fails outright instead of
+      # generating one, so create it ourselves with the standard
+      # well-known debug keystore credentials.
+      - name: Create debug keystore
+        run: |
+          mkdir -p ~/.android
+          keytool -genkey -v -keystore ~/.android/debug.keystore \
+            -storepass android -alias androiddebugkey -keypass android \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+
       # Unsigned debug build: proves the app actually builds without
       # needing the release keystore secrets (also available on PRs
       # from forks).
