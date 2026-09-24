@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id "com.github.triplet.play"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -53,6 +54,20 @@ android {
             }
         }
     }
+}
+
+play {
+    // Only wired up when the credentials are actually present (CI decodes
+    // them into this file before a publish); leaving it unset otherwise
+    // means ordinary builds never need Play Console access.
+    def credentialsFile = file("play-service-account.json")
+    if (credentialsFile.exists()) {
+        serviceAccountCredentials.set(credentialsFile)
+    }
+    // Overridden per-run with -Pplay.track=<track>; defaults to the
+    // safest track when invoked without one.
+    track.set(project.findProperty("play.track")?.toString() ?: "internal")
+    defaultToAppBundles.set(true)
 }
 
 flutter {
