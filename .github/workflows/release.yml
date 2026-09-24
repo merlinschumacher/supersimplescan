@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: "25"
 
       - name: Setup Flutter SDK
         uses: flutter-actions/setup-flutter@v4
