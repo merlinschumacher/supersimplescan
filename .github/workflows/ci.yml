@@ -40,7 +40,7 @@ jobs:
       - name: Set Up Java
         uses: actions/setup-java@v4
         with:
-          distribution: "oracle"
+          distribution: "temurin"
           java-version: "17"
 
       - name: Set up Flutter
@@ -66,10 +66,9 @@ jobs:
 
       # Unsigned debug build: proves the app actually builds without
       # needing the release keystore secrets (also available on PRs
-      # from forks). -v surfaces the full Gradle stacktrace if this
-      # ever fails again, instead of Gradle's bare one-line summary.
+      # from forks).
       - name: Build debug APK
-        run: flutter build apk --debug -v
+        run: flutter build apk --debug
 
       # - run: flutter test
 
@@ -88,7 +87,7 @@ jobs:
       - name: Set Up Java
         uses: actions/setup-java@v4
         with:
-          distribution: "oracle"
+          distribution: "temurin"
           java-version: "17"
 
       - name: Set up Flutter
