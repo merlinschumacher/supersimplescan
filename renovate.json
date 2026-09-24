@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    "schedule:weekly"
+  ],
+  "timezone": "UTC",
+  "labels": ["dependencies"],
+  "platformAutomerge": true,
+  "automergeType": "pr",
+  "gradle": {
+    "enabled": true
+  },
+  "github-actions": {
+    "enabled": true,
+    "pinDigests": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["gradle"],
+      "matchPackageNames": ["com.android.tools.build:gradle", "com.android.application"],
+      "groupName": "Android Gradle Plugin"
+    },
+    {
+      "matchManagers": ["gradle"],
+      "matchPackageNames": ["/^org.jetbrains.kotlin/"],
+      "groupName": "Kotlin"
+    },
+    {
+      "matchManagers": ["gradle-wrapper"],
+      "groupName": "Gradle wrapper"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "matchDatasources": ["java-version"],
+      "groupName": "JDK version",
+      "automerge": false,
+      "description": "Keep JDK bumps in their own PR, isolated from routine GitHub Actions digest/version updates, and always require manual review since they can break compatibility with the pinned Gradle/AGP versions."
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"]
+  }
+}
