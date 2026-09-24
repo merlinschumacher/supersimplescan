@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: "25"
 
       - name: Setup Flutter SDK
         uses: flutter-actions/setup-flutter@adb607ae976a9e00473569facfc69813c637a060 # v4.3
