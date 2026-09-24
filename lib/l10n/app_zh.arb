@@ -1,0 +1,32 @@
+{
+  "@@locale": "zh",
+  "appName": "Super Simple Scan",
+  "scanStartButton": "开始扫描",
+  "scanResultTitle": "扫描结果",
+  "enterFileNamePrompt": "请输入文档标题",
+  "fileNameIsRequired": "文件名不能为空",
+  "shareButton": "分享",
+  "defaultFileName": "{date} {time} 扫描",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  },
+  "infoPageTextFile": "info_zh.md",
+  "aboutDialogLegalese": "© 2024 - {year} Merlin Schumacher",
+  "@aboutDialogLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "DateTime",
+        "format": "y"
+      }
+    }
+  }
+}

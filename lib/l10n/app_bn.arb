@@ -1,0 +1,32 @@
+{
+  "@@locale": "bn",
+  "appName": "Super Simple Scan",
+  "scanStartButton": "স্ক্যান শুরু করুন",
+  "scanResultTitle": "স্ক্যান ফলাফল",
+  "enterFileNamePrompt": "নথির জন্য একটি শিরোনাম লিখুন",
+  "fileNameIsRequired": "ফাইলের নাম আবশ্যক",
+  "shareButton": "শেয়ার করুন",
+  "defaultFileName": "{date} {time} স্ক্যান",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  },
+  "infoPageTextFile": "info_bn.md",
+  "aboutDialogLegalese": "© 2024 - {year} Merlin Schumacher",
+  "@aboutDialogLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "DateTime",
+        "format": "y"
+      }
+    }
+  }
+}

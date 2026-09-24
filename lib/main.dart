@@ -33,10 +33,7 @@ class SuperSimpleScan extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('de'),
-        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: HomePage(),
       );
     });

@@ -1,0 +1,32 @@
+{
+  "@@locale": "es",
+  "appName": "Super Simple Scan",
+  "scanStartButton": "Iniciar escaneo",
+  "scanResultTitle": "Resultado del escaneo",
+  "enterFileNamePrompt": "Introduce un título para el documento",
+  "fileNameIsRequired": "El nombre del archivo es obligatorio",
+  "shareButton": "Compartir",
+  "defaultFileName": "{date} {time} Escaneo",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  },
+  "infoPageTextFile": "info_es.md",
+  "aboutDialogLegalese": "© 2024 - {year} Merlin Schumacher",
+  "@aboutDialogLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "DateTime",
+        "format": "y"
+      }
+    }
+  }
+}

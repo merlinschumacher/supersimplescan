@@ -1,0 +1,32 @@
+{
+  "@@locale": "id",
+  "appName": "Super Simple Scan",
+  "scanStartButton": "Mulai pindai",
+  "scanResultTitle": "Hasil pindaian",
+  "enterFileNamePrompt": "Masukkan judul untuk dokumen",
+  "fileNameIsRequired": "Nama file wajib diisi",
+  "shareButton": "Bagikan",
+  "defaultFileName": "{date} {time} Pindaian",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  },
+  "infoPageTextFile": "info_id.md",
+  "aboutDialogLegalese": "© 2024 - {year} Merlin Schumacher",
+  "@aboutDialogLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "DateTime",
+        "format": "y"
+      }
+    }
+  }
+}
