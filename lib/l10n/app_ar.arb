@@ -1,0 +1,32 @@
+{
+  "@@locale": "ar",
+  "appName": "Super Simple Scan",
+  "scanStartButton": "بدء المسح",
+  "scanResultTitle": "نتيجة المسح",
+  "enterFileNamePrompt": "أدخل عنوانًا للمستند",
+  "fileNameIsRequired": "اسم الملف مطلوب",
+  "shareButton": "مشاركة",
+  "defaultFileName": "{date} {time} مسح",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  },
+  "infoPageTextFile": "info_ar.md",
+  "aboutDialogLegalese": "© 2024 - {year} Merlin Schumacher",
+  "@aboutDialogLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "DateTime",
+        "format": "y"
+      }
+    }
+  }
+}

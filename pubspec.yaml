@@ -76,8 +76,18 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/docs/info_en.md
+    - assets/docs/info_ar.md
+    - assets/docs/info_bn.md
     - assets/docs/info_de.md
+    - assets/docs/info_en.md
+    - assets/docs/info_es.md
+    - assets/docs/info_fr.md
+    - assets/docs/info_hi.md
+    - assets/docs/info_id.md
+    - assets/docs/info_pt.md
+    - assets/docs/info_uk.md
+    - assets/docs/info_ur.md
+    - assets/docs/info_zh.md
     - assets/icons/app_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

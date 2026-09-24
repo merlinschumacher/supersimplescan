@@ -1,0 +1,32 @@
+{
+  "@@locale": "ur",
+  "appName": "Super Simple Scan",
+  "scanStartButton": "اسکین شروع کریں",
+  "scanResultTitle": "اسکین کا نتیجہ",
+  "enterFileNamePrompt": "دستاویز کے لیے ایک عنوان درج کریں",
+  "fileNameIsRequired": "فائل کا نام درکار ہے",
+  "shareButton": "شیئر کریں",
+  "defaultFileName": "{date} {time} اسکین",
+  "@defaultFileName": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "jms"
+      }
+    }
+  },
+  "infoPageTextFile": "info_ur.md",
+  "aboutDialogLegalese": "© 2024 - {year} Merlin Schumacher",
+  "@aboutDialogLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "DateTime",
+        "format": "y"
+      }
+    }
+  }
+}
