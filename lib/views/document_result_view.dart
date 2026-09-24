@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
 import 'package:share_plus/share_plus.dart';
@@ -18,8 +15,7 @@ class DocumentResultView extends StatefulWidget {
   DocumentResultViewState createState() => DocumentResultViewState();
 }
 
-class DocumentResultViewState extends State<DocumentResultView>
-    with WidgetsBindingObserver {
+class DocumentResultViewState extends State<DocumentResultView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final fileNameFieldController = TextEditingController(text: "");
 
@@ -79,33 +75,19 @@ class DocumentResultViewState extends State<DocumentResultView>
     return AppLocalizations.of(context)!.defaultFileName(now, now);
   }
 
-  Future<Uint8List?> _readFileByte(String filePath) async {
-    Uri myUri = Uri.parse(filePath);
-    File audioFile = File.fromUri(myUri);
-    Uint8List? bytes;
-    await audioFile.readAsBytes().then((value) {
-      bytes = Uint8List.fromList(value);
-      print('reading of bytes is completed');
-    }).catchError((onError) {
-      print('Exception Error while reading audio from path:$onError');
-    });
-    return bytes;
-  }
-
   void _shareDocument() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    Uint8List? bytes = await _readFileByte(widget.document.pdf!.uri);
-    if (bytes == null) {
-      return;
-    }
     String fileName = _addPdfSuffix(fileNameFieldController.text);
     SharePlus.instance.share(
       ShareParams(
-      files: [XFile.fromData(bytes, name: fileName, mimeType: 'application/pdf')],
-      fileNameOverrides: [fileName],
-    ));
+        files: [
+          XFile(widget.document.pdf!.uri, mimeType: 'application/pdf'),
+        ],
+        fileNameOverrides: [fileName],
+      ),
+    );
   }
 }

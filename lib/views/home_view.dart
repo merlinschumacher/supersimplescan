@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   void startScan() async {
     try {
       _result = null;
+      await _documentScanner?.close();
       _documentScanner = DocumentScanner(
           options: DocumentScannerOptions(
         documentFormat: DocumentFormat.pdf,
@@ -32,7 +33,6 @@ class _HomePageState extends State<HomePage> {
         isGalleryImport: false,
       ));
       _result = await _documentScanner!.scanDocument();
-      print('Result: $_result');
       setState(() {});
       if (!mounted) return;
       Navigator.push(
@@ -40,8 +40,14 @@ class _HomePageState extends State<HomePage> {
           MaterialPageRoute(
               builder: (context) => DocumentResultView(document: _result!)));
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error while scanning document: $e');
     }
+  }
+
+  @override
+  void dispose() {
+    _documentScanner?.close();
+    super.dispose();
   }
 
   @override
