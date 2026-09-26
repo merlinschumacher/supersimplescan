@@ -111,6 +111,8 @@ jobs:
 
       - name: Publish to Google Play
         working-directory: android
+        env:
+          ANDROID_PUBLISHER_CREDENTIALS: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
           chmod +x gradlew
           ./gradlew publishReleaseBundle -Pplay.track=${{ inputs.track || 'internal' }} --no-daemon
